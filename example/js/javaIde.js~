@@ -1,0 +1,85 @@
+$(document).ready(function(){
+	 //alert("in");
+
+    shortcut.add("Ctrl+S", function () {
+      alert("Hi there let me help u save ur file!");
+    });
+
+  var editor = ace.edit("editor");
+  editor.setTheme("ace/theme/monokai");
+  editor.getSession().setMode("ace/mode/java");
+  editor.setFontSize("16px");
+
+  var fileContentList = [];
+  var className = "";
+
+//  $("#save").click(function(){
+    //fileContentList = editor.getSession().getDocument().getAllLines();
+//    className = getClassName(editor, sendDataToServer);
+//  });
+
+  $("#compile").click(function(){
+    className = getClassName(editor, sendDataToServer);
+  });  
+
+});
+
+function getClassName(editor, callBackFunct){
+    var fileContentList = editor.getSession().getDocument().getAllLines();
+    var regexForClass = /\s*(public|private|protected|default|\s*)\s*[static]?\s*class\s*\w*\s*[{]?/;
+    $.each(fileContentList, function(index, value){
+      var textContent = fileContentList[index];
+      
+      if(regexForClass.test(textContent)){
+        var parts =   textContent.split(" ");
+        var partsWithoutSpace = [];
+
+        for(i=0; i < parts.length; i++){
+          if($.trim(parts[i]).length > 0){
+            partsWithoutSpace.push(parts[i]);
+          }
+        }
+
+        var classIndex =  partsWithoutSpace.indexOf('class');
+
+        var className = partsWithoutSpace[classIndex+1];
+        if(className.indexOf("{") > -1){
+          console.log("match found");
+          var partList = className.split("{");
+          className = partList[0];
+        }
+        console.log(className);
+        callBackFunct(editor, className);
+        return false;
+      }
+    });
+  }
+
+ function sendDataToServer(editor, className){
+    var code = editor.getSession().getValue();
+    console.log("className : " + className + " \n\n code: " + code );
+    var serverInput = {
+      "className" : className,
+      "classContent" : code
+    }
+
+    $.ajax({
+      type: 'POST',
+      url: 'src/process.php',
+      data: serverInput,
+      success: function (data) {
+	console.log(data);
+          /*var compileOptObj = jQuery.parseJSON(data);
+          if (compileOptObj.CompileTimeError) {
+              console.log(compileOptObj.CompileTimeError);
+          } else if (compileOptObj.RunTimeError) {
+              console.log(compileOptObj.RunTimeError);
+          } else if (compileOptObj.Output) {
+              console.log(compileOptObj.Output);
+          }*/
+      },
+      error: function (data) {
+          console.log('fail' + data);
+      }
+  });
+ }

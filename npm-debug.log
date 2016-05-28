@@ -1,0 +1,96 @@
+0 info it worked if it ends with ok
+1 verbose cli [ '/usr/bin/node', '/usr/bin/npm', 'install', '-g', 'term.js' ]
+2 info using npm@1.4.28
+3 info using node@v0.10.40
+4 verbose node symlink /usr/bin/node
+5 verbose cache add [ 'term.js', null ]
+6 verbose cache add name=undefined spec="term.js" args=["term.js",null]
+7 verbose parsed url { protocol: null,
+7 verbose parsed url   slashes: null,
+7 verbose parsed url   auth: null,
+7 verbose parsed url   host: null,
+7 verbose parsed url   port: null,
+7 verbose parsed url   hostname: null,
+7 verbose parsed url   hash: null,
+7 verbose parsed url   search: null,
+7 verbose parsed url   query: null,
+7 verbose parsed url   pathname: 'term.js',
+7 verbose parsed url   path: 'term.js',
+7 verbose parsed url   href: 'term.js' }
+8 silly lockFile 06ad354b-term-js term.js
+9 verbose lock term.js /home/dhiraj/.npm/06ad354b-term-js.lock
+10 verbose tar pack [ '/home/dhiraj/.npm/term.js/0.0.1/package.tgz', 'term.js' ]
+11 verbose tarball /home/dhiraj/.npm/term.js/0.0.1/package.tgz
+12 verbose folder term.js
+13 info prepublish term.js@0.0.1
+14 silly lockFile 09d2b23a-tar-term-js tar://term.js
+15 verbose lock tar://term.js /home/dhiraj/.npm/09d2b23a-tar-term-js.lock
+16 silly lockFile 851fa480-aj-npm-term-js-0-0-1-package-tgz tar:///home/dhiraj/.npm/term.js/0.0.1/package.tgz
+17 verbose lock tar:///home/dhiraj/.npm/term.js/0.0.1/package.tgz /home/dhiraj/.npm/851fa480-aj-npm-term-js-0-0-1-package-tgz.lock
+18 silly lockFile 09d2b23a-tar-term-js tar://term.js
+19 silly lockFile 09d2b23a-tar-term-js tar://term.js
+20 silly lockFile 851fa480-aj-npm-term-js-0-0-1-package-tgz tar:///home/dhiraj/.npm/term.js/0.0.1/package.tgz
+21 silly lockFile 851fa480-aj-npm-term-js-0-0-1-package-tgz tar:///home/dhiraj/.npm/term.js/0.0.1/package.tgz
+22 silly lockFile 3d666b98-dhiraj-npm-term-js-0-0-1-package /home/dhiraj/.npm/term.js/0.0.1/package
+23 verbose lock /home/dhiraj/.npm/term.js/0.0.1/package /home/dhiraj/.npm/3d666b98-dhiraj-npm-term-js-0-0-1-package.lock
+24 silly lockFile 3d666b98-dhiraj-npm-term-js-0-0-1-package /home/dhiraj/.npm/term.js/0.0.1/package
+25 silly lockFile 3d666b98-dhiraj-npm-term-js-0-0-1-package /home/dhiraj/.npm/term.js/0.0.1/package
+26 silly lockFile 06ad354b-term-js term.js
+27 silly lockFile 06ad354b-term-js term.js
+28 silly resolved [ { name: 'term.js',
+28 silly resolved     description: 'A terminal written in javascript',
+28 silly resolved     author: { name: 'Christopher Jeffrey' },
+28 silly resolved     version: '0.0.1',
+28 silly resolved     main: './index.js',
+28 silly resolved     preferGlobal: false,
+28 silly resolved     repository: { type: 'git', url: 'git://github.com/chjj/term.js.git' },
+28 silly resolved     homepage: 'https://github.com/chjj/term.js',
+28 silly resolved     bugs: { url: 'https://github.com/chjj/term.js/issues' },
+28 silly resolved     keywords: [ 'tty', 'terminal', 'term' ],
+28 silly resolved     tags: [ 'tty', 'terminal', 'term' ],
+28 silly resolved     engines: { node: '>= 0.8.0' },
+28 silly resolved     devDependencies: { express: '3.1.0', 'socket.io': '0.9.13', 'pty.js': '0.2.3' },
+28 silly resolved     readme: '# term.js\n\nA terminal written in javascript. Used by\n[tty.js](https://github.com/chjj/tty.js).\n\n## Example\n\nServer:\n\n``` js\nvar term = require(\'term.js\');\nexpress.use(term.middleware());\n...\n```\n\nClient:\n\n``` js\nwindow.addEventListener(\'load\', function() {\n  var term = new Terminal({\n    cols: 80,\n    rows: 24\n  });\n\n  term.open(document.body);\n\n  term.on(\'data\', function(data) {\n    console.log(data);\n  });\n\n  term.on(\'title\', function(title) {\n    console.log(\'New title: \' + title);\n  });\n\n  term.write(\'\\x1b[41hello world\\x1b[m\');\n}, false);\n```\n\n## License\n\nCopyright (c) 2012-2013, Christopher Jeffrey (MIT License)\n',
+28 silly resolved     readmeFilename: 'README.md',
+28 silly resolved     _id: 'term.js@0.0.1',
+28 silly resolved     scripts: {},
+28 silly resolved     _shasum: '4a23c3ac5e70000c6dd28a3b1012d22f993eb753',
+28 silly resolved     _from: 'term.js' } ]
+29 info install term.js@0.0.1 into /usr/lib
+30 info installOne term.js@0.0.1
+31 verbose lib/node_modules/term.js unbuild
+32 verbose tar unpack /home/dhiraj/.npm/term.js/0.0.1/package.tgz
+33 silly lockFile b7f4fc31-tar-usr-lib-node-modules-term-js tar:///usr/lib/node_modules/term.js
+34 verbose lock tar:///usr/lib/node_modules/term.js /home/dhiraj/.npm/b7f4fc31-tar-usr-lib-node-modules-term-js.lock
+35 silly lockFile 851fa480-aj-npm-term-js-0-0-1-package-tgz tar:///home/dhiraj/.npm/term.js/0.0.1/package.tgz
+36 verbose lock tar:///home/dhiraj/.npm/term.js/0.0.1/package.tgz /home/dhiraj/.npm/851fa480-aj-npm-term-js-0-0-1-package-tgz.lock
+37 silly gunzTarPerm modes [ '775', '664' ]
+38 error Error: EACCES, mkdir '/usr/lib/node_modules/term.js'
+38 error  { [Error: EACCES, mkdir '/usr/lib/node_modules/term.js']
+38 error   errno: 3,
+38 error   code: 'EACCES',
+38 error   path: '/usr/lib/node_modules/term.js',
+38 error   fstream_type: 'Directory',
+38 error   fstream_path: '/usr/lib/node_modules/term.js',
+38 error   fstream_class: 'DirWriter',
+38 error   fstream_stack:
+38 error    [ '/usr/lib/node_modules/npm/node_modules/fstream/lib/dir-writer.js:36:23',
+38 error      '/usr/lib/node_modules/npm/node_modules/mkdirp/index.js:46:53',
+38 error      'Object.oncomplete (fs.js:108:15)' ] }
+39 error Please try running this command again as root/Administrator.
+40 error System Linux 3.16.0-51-generic
+41 error command "/usr/bin/node" "/usr/bin/npm" "install" "-g" "term.js"
+42 error cwd /home/dhiraj/Desktop/term
+43 error node -v v0.10.40
+44 error npm -v 1.4.28
+45 error path /usr/lib/node_modules/term.js
+46 error fstream_path /usr/lib/node_modules/term.js
+47 error fstream_type Directory
+48 error fstream_class DirWriter
+49 error code EACCES
+50 error errno 3
+51 error stack Error: EACCES, mkdir '/usr/lib/node_modules/term.js'
+52 error fstream_stack /usr/lib/node_modules/npm/node_modules/fstream/lib/dir-writer.js:36:23
+52 error fstream_stack /usr/lib/node_modules/npm/node_modules/mkdirp/index.js:46:53
+52 error fstream_stack Object.oncomplete (fs.js:108:15)
+53 verbose exit [ 3, true ]

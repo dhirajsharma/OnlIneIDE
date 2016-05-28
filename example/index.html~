@@ -1,0 +1,371 @@
+<!doctype html>
+<html>
+<head>
+<title>Compile and Execute Java Online</title>
+<!--
+  term.js
+  Copyright (c) 2012-2013, Christopher Jeffrey (MIT License)
+-->
+<style>
+
+/*  html {
+    background: #555;
+  }
+
+  h1 {
+    margin-bottom: 20px;
+    font: 20px/1.5 sans-serif;
+  }
+
+/*
+  .terminal {
+    float: left;
+    border: #000 solid 5px;
+    font-family: "DejaVu Sans Mono", "Liberation Mono", monospace;
+    font-size: 11px;
+    color: #f0f0f0;
+    background: #000;
+  }
+
+  .terminal-cursor {
+    color: #000;
+    background: #f0f0f0;
+  }
+*/
+</style>
+<base href="http://www.tutorialspoint.com/" />
+<script src="/codingground/scripts/jquery.min.js"></script>
+<script src="/codingground/scripts/jquery.easyui.min.js"></script>
+<script src="/codingground/ace/src-min/ace.js" type="text/javascript" charset="utf-8"></script>
+<script src="/codingground/scripts/spectrum.js"></script>
+<link rel="stylesheet" type="text/css" href="/codingground/themes/gray/easyui.css">
+<link rel="stylesheet" type="text/css" href="/codingground/themes/icon.css">
+<link rel="stylesheet" type="text/css" href="/codingground/style/spectrum.css">
+<link rel="stylesheet" type="text/css" href="/codingground/style/cg.css">
+<script src="/codingground/node_modules/socket.io/node_modules/socket.io-client/dist/socket.io.js"></script>
+<script src="/codingground/node_modules/term.js/src/term.js"></script>
+<script src="js/jquery.min.js"></script>
+<script src="js/jquery.easyui.min.js"></script>
+<script src="js/spectrum.js"></script>
+
+<link rel="stylesheet" type="text/css" href="style/easyui.css">
+<link rel="stylesheet" type="text/css" href="style/icon.css">
+<link rel="stylesheet" type="text/css" href="style/spectrum.css">
+<link rel="stylesheet" type="text/css" href="style/cg.css">
+
+<script src="/socket.io/socket.io.js"></script>
+<script src="mod/term.js"></script>
+
+<style>
+.main-title{
+    border-left: 1px solid #ccc;
+    height: 17px;
+    color: #000;
+    font-size: 100%;
+    float: left;
+    margin: 21px 5px 0px 5px;
+    padding: 6px 0px 0px 5px;
+    text-transform: uppercase;
+    font-weight: bold;
+    letter-spacing: 4px;
+}
+#east a img:hover{
+   opacity:0.5;
+}
+#east a img{
+   padding-top:10px;
+   padding-left:10px;
+   width:80px !important;
+   height:60px !important;
+   
+}
+</style>
+<script src="/codingground/scripts/cg.js"></script>
+<script src="http://www.google-analytics.com/urchin.js">
+<script>
+;(function() {
+  window.onload = function() {
+    var socket = io.connect();
+    
+    socket.on('connect', function() {
+      var term = new Terminal({
+        cols: 80,
+        rows: 24,
+//        useStyle: true,
+//        screenKeys: true,
+        cursorBlink: false
+      });
+
+      term.on('data', function(data) {
+	socket.emit('data', data);
+      });
+
+      term.on('title', function(title) {
+        document.title = title;
+      });
+
+      term.open(document.body);
+
+      term.write('\x1b[31mWelcome to term.js!\x1b[m\r\n');
+      socket.emit('data', 'java JavaScannerExample\n');
+      //term.write(data);
+      socket.on('data', function(data) {
+        term.write(data);
+      });
+
+      socket.on('disconnect', function() {
+        term.destroy();
+      });
+    });
+  };
+}).call(this);
+</script>
+<script src="js/cg.js"></script>
+<head>
+<body class="easyui-layout" id="c">
+<h1>term.js</h1>
+<h1>Dhiraj Sharma</h1>
+<div id="loading"></div>
+<form id="ff">
+<div id="sign" class="easyui-window" title="Coding Ground" data-options="iconCls:'icon-login',modal:true, maximizable:false, closed:true, minimizable:false" style="width:530px;height:475px;padding:10px;"></div>
+<div id="dircontext" class="easyui-menu" style="width:150px;">
+   <div onclick="newFile()" data-options="iconCls:'icon-add-file'">Create File</div>
+   <div onclick="saveFiles( function( status ){ return true; })" data-options="iconCls:'icon-save-project'">Save Files</div>
+   <div onclick="openFileUpload()" data-options="iconCls:'icon-upload-file'">Upload File</div>
+   <div onclick="newDir()" data-options="iconCls:'icon-add-dir'">New Directory</div>
+   <div onclick="deleteDir()" data-options="iconCls:'icon-delete-file'">Delete Directory</div>
+   <div onclick="renameFile()" data-options="iconCls:'icon-rename-file'">Rename Directory</div>
+   <div onclick="reloadTree()" data-options="iconCls:'icon-refresh-project'">Refresh Files</div>
+</div>
+<div id="filecontext" class="easyui-menu" style="width:150px;">
+   <div onclick="loadFile(false, false)" data-options="iconCls:'icon-save-file'">Open File</div>
+   <div onclick="saveFiles( function( status ){ return true; })" data-options="iconCls:'icon-save-project'">Save File</div>
+   <div onclick="deleteFile()" data-options="iconCls:'icon-delete-file'">Delete File</div>
+   <div onclick="renameFile()" data-options="iconCls:'icon-rename-file'">Rename File</div>
+   <div onclick="downloadFile()" data-options="iconCls:'icon-download-file'">Download File</div>
+   <div onclick="reloadTree()" data-options="iconCls:'icon-refresh-project'">Refresh Files</div>
+</div>
+<iframe id="download" style="display:hidden"></iframe>
+<div data-options="region:'north'" style="height:65px; width:100%;overflow:hidden;background:url(/codingground/images/top_bg.png);">
+   <a href='http://www.tutorialspoint.com/codingground.htm'>
+      <img src="/codingground/images/logo.png" style="padding:5px; float:left; margin-top: 0px; width:200px; height:56px"/>
+   </a>
+   <h1 class="main-title">Compile and Execute Java Online</h1>
+ <div class="easyui-panel,border:false,doSize:false" style="margin:18px 0px 0px 0px; float:right;">
+   <a id="help" href="#" class="easyui-linkbutton" data-options="iconCls:'icon-help', plain:true" style="float:right">Help</a>
+   <a id="shutdown" href="javascript:shutdown();" class="easyui-linkbutton" data-options="iconCls:'icon-exit', plain:true" style="float:right">Shut Down</a>
+   <a id="tutorials" target="_blank" href="http://www.tutorialspoint.com/tutorialslibrary.htm" class="easyui-linkbutton" data-options="iconCls:'icon-library', plain:true" style="float:right; position:relative; top:-1px;">Tutorials</a>
+   <a id="view" href="#" class="easyui-menubutton" data-options="menu:'#mm3',iconCls:'icon-view'" style="float:right">View</a>
+   <a id="edit" href="#" class="easyui-menubutton" data-options="menu:'#mm2',iconCls:'icon-edit'" style="float:right">Edit</a>
+   <a id="project" href="#" class="easyui-menubutton" data-options="menu:'#mm4', plain:true, iconCls:'icon-project'" style="float:right">Project</a>
+   <a id="edit" href="#" class="easyui-menubutton" data-options="menu:'#mm1', iconCls:'icon-file'" style="float:right">File</a>
+   <a id="system" href="#" class="easyui-menubutton" data-options="menu:'#mm5', plain:true, iconCls:'icon-tools'" style="float:right">Dev Tools</a>
+</div>
+<div id="mm5" style="width:200px;">
+   <div data-options="plain:true, iconCls:'icon-image-optimizer'"><a href="http://www.tutorialspoint.com/online_image_optimizer.htm" style="color:#424242;text-decoration:none;">Online Image Optimizer</a></div>
+   <div class="menu-sep"></div>
+   <div data-options="plain:true, iconCls:'icon-image-editor'"><a href="http://www.tutorialspoint.com/online_latex_editor.php" style="color:#424242;text-decoration:none;">Online LaTex Editor</a></div>
+   <div class="menu-sep"></div>   
+   <div data-options="plain:true, iconCls:'icon-sum'"><a href="http://www.tutorialspoint.com/latex_equation_editor.htm" style="color:#424242;text-decoration:none;">LaTex Equation Editor</a></div>
+   <div class="menu-sep"></div>     
+   <div data-options="plain:true, iconCls:'icon-whiteboard'"><a href="http://www.tutorialspoint.com/free_online_whiteboard.htm" style="color:#424242;text-decoration:none;">Online Whiteboard</a></div>
+   <div class="menu-sep"></div>     
+   <div data-options="plain:true, iconCls:'icon-image-editor'"><a href="http://www.tutorialspoint.com/online_image_editor.htm" style="color:#424242;text-decoration:none;">Online Image Editor</a></div>
+   <div class="menu-sep"></div>  
+   <div data-options="plain:true, iconCls:'icon-xml'"><a href="http://www.tutorialspoint.com/online_xml_editor.htm" style="color:#424242;text-decoration:none;">Online XML Editor</a></div>
+   <div class="menu-sep"></div>  
+   <div data-options="plain:true, iconCls:'icon-json'"><a href="http://www.tutorialspoint.com/online_json_editor.htm" style="color:#424242;text-decoration:none;">Online JSON Editor</a></div>
+   <div class="menu-sep"></div>
+   <div data-options="plain:true, iconCls:'icon-project'"><a href="http://www.tutorialspoint.com/online_dev_tools.htm" style="color:#424242;text-decoration:none;">More Tools...</a></div>
+</div>
+<div id="mm1" style="width:200px;">
+   <div onclick="newFile()" data-options="iconCls:'icon-add-file'">Create File</div>
+   <div onclick="saveFiles( function( status ){ return true; })" data-options="iconCls:'icon-save-project'">Save Files</div>
+   <div onclick="deleteFile()" data-options="iconCls:'icon-delete-file'">Delete File</div>
+   <div onclick="renameFile()" data-options="iconCls:'icon-rename-file'">Rename File</div>
+   <div onclick="downloadFile()" data-options="iconCls:'icon-download-file'">Download File</div>
+   <div onclick="openFileUpload()" data-options="iconCls:'icon-upload-file'">Upload File</div>
+   <div class="menu-sep"></div>
+   <div onclick="newDir()" data-options="iconCls:'icon-add-dir'">New Directory</div>
+   <div onclick="deleteDir()" data-options="iconCls:'icon-delete-file'">Delete Directory</div>
+   <div onclick="renameFile()" data-options="iconCls:'icon-rename-file'">Rename Directory</div>
+</div>
+<div id="mm2" style="width:200px;">
+   <div id="undo" data-options="iconCls:'icon-undo'">Undo</div>
+   <div id="redo" data-options="iconCls:'icon-redo'">Redo</div>
+   <div class="menu-sep"></div>
+   <div id="cut" data-options="iconCls:'icon-cut'">Cut</div>
+   <div id="copy" data-options="iconCls:'icon-copy'">Copy</div>
+   <div id="paste" data-options="iconCls:'icon-paste'">Paste</div>
+   <div id="delete" data-options="iconCls:'icon-delete'">Delete</div>
+   <div id="select" data-options="iconCls:'icon-select'">Select All</div>
+   <div class="menu-sep"></div>
+   <div id="find" data-options="iconCls:'icon-find'">Find</div>
+   <div id="findreplace" data-options="iconCls:'icon-replace'">Find and Replace</div>
+</div>
+<div id="mm3" style="width:200px;">
+   <div id="editor-theme" data-options="iconCls:'icon-editor-theme'"><span>Editor Theme</span>
+           <div>
+                <div onclick="setEditorTheme('chrome');">Chrome</div>
+                <div onclick="setEditorTheme('crimson_editor');">Crimson Editor</div>
+                <div onclick="setEditorTheme('dreamweaver');">Dreamweaver</div>
+                <div onclick="setEditorTheme('eclipse');">Eclipse</div>
+                <div onclick="setEditorTheme('github');">Github</div>
+                <div onclick="setEditorTheme('kuroir');">Kuroir</div>
+                <div onclick="setEditorTheme('solarized_light');">Solarized Light</div>
+                <div onclick="setEditorTheme('solarized_dark');">Solarized Dark</div>
+                <div onclick="setEditorTheme('xcode');">XCode</div>
+                <div onclick="setEditorTheme('ambiance');">Ambiance</div>
+                <div onclick="setEditorTheme('cobalt');">Cobalt</div>
+                <div onclick="setEditorTheme('idle_fingers');">idle Fingers</div>
+                <div onclick="setEditorTheme('kr_theme');">krTheme</div>
+                <div onclick="setEditorTheme('mono_industrial');">Mono Industrial</div>
+                <div onclick="setEditorTheme('monokai');">Monokai</div>
+                <div onclick="setEditorTheme('terminal');">Terminal</div>
+                <div onclick="setEditorTheme('textmate');">Textmate</div>
+                <div onclick="setEditorTheme('tomorrow');">Tomorrow</div>
+                <div onclick="setEditorTheme('twilight');">Twilight</div>
+                <div onclick="setEditorTheme('vibrant_ink');">Vibrant Ink</div>
+            </div>
+   </div>
+   <div id="font-size" data-options="iconCls:'icon-font-size'"><span>Font Size</span>
+            <div>
+                <div onclick="setEditorFontSize('8');">8px</div>
+                <div onclick="setEditorFontSize('9');">9px</div>
+                <div onclick="setEditorFontSize('10');">10px</div>
+                <div onclick="setEditorFontSize('11');">11px</div>
+                <div onclick="setEditorFontSize('12');">12px</div>
+                <div onclick="setEditorFontSize('13');">13px</div>
+                <div onclick="setEditorFontSize('14');">14px</div>
+                <div onclick="setEditorFontSize('15');">15px</div>
+                <div onclick="setEditorFontSize('16');">16px</div>
+                <div onclick="setEditorFontSize('17');">17px</div>
+                <div onclick="setEditorFontSize('18');">18px</div>
+                <div onclick="setEditorFontSize('20');">20px</div>
+                <div onclick="setEditorFontSize('22');">22px</div>
+                <div onclick="setEditorFontSize('24');">24px</div>
+            </div>
+   </div>
+   <div id="tab-size" data-options="iconCls:'icon-tab-size'"><span>Tab Size</span>
+            <div>
+                <div onclick="setEditorTabSize('1');">1</div>
+                <div onclick="setEditorTabSize('2');">2</div>
+                <div onclick="setEditorTabSize('3');">3</div>
+                <div onclick="setEditorTabSize('4');">4</div>
+                <div onclick="setEditorTabSize('5');">5</div>
+                <div onclick="setEditorTabSize('6');">6</div>
+                <div onclick="setEditorTabSize('7');">7</div>
+                <div onclick="setEditorTabSize('8');">8</div>
+            </div>
+   </div>
+   <div id="soft-wrap" data-options="iconCls:'icon-soft-wrap'"><span>Soft Wrap</span>
+            <div>
+                <div onclick="setEditorSoftWrap('true');">On</div>
+                <div onclick="setEditorSoftWrap('false');">Off</div>
+                <div onclick="setEditorSoftWrap('40');">40 Chars</div>
+                <div onclick="setEditorSoftWrap('60');">60 Chars</div>
+                <div onclick="setEditorSoftWrap('80');">80 Chars</div>
+                <div onclick="setEditorSoftWrap('100');">100 Chars</div>
+                <div onclick="setEditorSoftWrap('120');">120 Chars</div>
+                <div onclick="setEditorSoftWrap('140');">140 Chars</div>
+            </div>
+   </div>
+   <div class="menu-sep"></div>
+   <div onclick="setEditorInvisible(true);"  data-options="iconCls:'icon-show-invisible'">Show Invisible</div>
+   <div onclick="setEditorInvisible(false);" data-options="iconCls:'icon-hide-invisible'">Hide Invisible</div>
+   <div class="menu-sep"></div>
+   <div onclick="setEditorGutter(true);" data-options="iconCls:'icon-show-gutter'">Show Gutter</div>
+   <div onclick="setEditorGutter(false);" data-options="iconCls:'icon-hide-gutter'">Hide Gutter</div>
+</div>
+<div id="mm4" style="width:200px;">
+     <div onclick="createProject('http://www.tutorialspoint.com/codingground.htm')" data-options="iconCls:'icon-create-project'"><span>New Project</span>
+     </div>
+          <div onclick="refreshProject();" data-options="iconCls:'icon-refresh-project'">Refresh Project</div>
+     <div onclick="renameProject();" data-options="iconCls:'icon-rename-file'">Rename Project</div>
+     <div class="menu-sep"></div>
+     <div data-options="iconCls:'icon-save-project'"><span>Save Project</span>
+       <div>
+           <div onclick="saveAtDropbox()" data-options="iconCls:'icon-dropbox'">Save at Dropbox</div>
+           <div onclick="saveAtGithub()" data-options="iconCls:'icon-github'">Save at GitHub</div>
+           <div onclick="saveAtGoogleDrive()" data-options="iconCls:'icon-google-drive'">Save at Google Drive</div>
+           <div onclick="saveAtOneDrive()" data-options="iconCls:'icon-one-drive'">Save at OneDrive</div>
+       </div>
+     </div>
+     <div data-options="iconCls:'icon-export-project'"><span>Import Project</span>
+        <div>
+          <div onclick="listDropboxProjects()"  data-options="iconCls:'icon-dropbox'">Import Project from Dropbox</div>
+          <div onclick="listGithubProjects()"  data-options="iconCls:'icon-github'">Import Project from GitHub</div>
+          <div onclick="listGoogleDriveProjects()" data-options="iconCls:'icon-google-drive'">Import Project from Google Drive</div>
+          <div onclick="listOneDriveProjects()" data-options="iconCls:'icon-one-drive'">Import Project from OneDrive</div>
+        </div>
+     </div>
+     <div data-options="iconCls:'icon-delete-file'"><span>Delete Project</span>
+        <div>
+          <div onclick="listDropboxProjects()"  data-options="iconCls:'icon-dropbox'">Delete Project from Dropbox</div>
+          <div onclick="listGithubProjects()"  data-options="iconCls:'icon-github'">Delete Project from GitHub</div>
+          <div onclick="listGoogleDriveProjects()" data-options="iconCls:'icon-google-drive'">Delete Project from Google Drive</div>
+          <div onclick="listOneDriveProjects()" data-options="iconCls:'icon-one-drive'">Delete Project from OneDrive</div>
+        </div>
+     </div>
+     <div class="menu-sep"></div>
+     <div onclick="downloadProject()" data-options="iconCls:'icon-download-file'">Download Project</div>
+     <div onclick="openUploadProject()"  data-options="iconCls:'icon-upload-file'">Upload Project</div>
+     <div class="menu-sep"></div>
+     <div onclick="openShareProject()" data-options="iconCls:'icon-share-project'">Share Project</div>
+     <div class="menu-sep"></div>
+     <div id="compileoptions" onclick="openCompileOptions()" data-options="iconCls:'icon-execute-project'">Compile Options</div>
+    </div>
+</div>
+<div id="east" data-options="region:'east',iconCls:'icon-library', title:'Tutorials', split:true" style="width:105px; border-left:5px solid #eee; overflow:hidden; background:#285627;">
+   <a href="/cplusplus/index.htm" title="Learn C++" target="_blank">
+   <img style="width:100px; height:80px;" src="/images/cplusplus_icon.png" alt="Learn C++"/>
+   </a>
+   <a href="/java/index.htm" title="Learn Java" target="_blank">
+   <img style="width:100px; height:80px;" src="/images/java_icon.png" alt="Learn Java"/>
+   </a>
+   <a href="/python/index.htm" title="Learn Python" target="_blank">
+   <img style="width:100px; height:80px;" src="/images/python_icon.png" alt="Learn Python"/>
+   </a>
+   <a href="/ruby/index.htm" title="Learn Ruby" target="_blank">
+   <img style="width:100px; height:80px;" src="/images/ruby_icon.png" alt="Learn Ruby"/>
+   </a>
+   <a href="/swift/index.htm" title="Learn Swift Programming"target="_blank">
+   <img style="width:100px; height:80px;" src="/images/swift_icon.png" alt="Learn Swift Programming"/>
+   </a>
+   <a href="/scala/index.htm" title="Learn Scala" target="_blank">
+   <img style="width:100px; height:80px;" src="/images/scala_icon.png" alt="Learn Scala"/>
+   </a>
+</div>
+<div id="spectrum-tools" style="position:relative; display:none;">
+  <input type='text' id="spectrum" />
+</div>
+<div id="terminal-tools" style="position:relative;">
+   <a href="javascript:void(0);" onclick="setSpectrum()" class='icon-color'></a>
+</div>
+<div data-options="region:'west',onCollapse:doVertical, title:'Project',iconCls:'icon-project', split:true, tools: [{ iconCls:'icon-save-project', handler:function(){saveFiles( function( status ){ return true; } )} },{ iconCls:'icon-refresh-project', handler:function(){reloadTree()} },{ iconCls:'icon-add-file', handler:function(){newFile()} }]" style="width:250px;">
+<ul id="home" class="easyui-tree" data-options="method:'GET', animate:true,lines:true">
+<div id='treewait'>
+<img style="margin-left:4px;margin-top:3px;width:28px; height:28px;" src='/codingground/images/loading.gif'/>
+</div>
+</ul>
+</div>
+<div id="south" data-options="region:'south', iconCls:'icon-terminal', split:true, tools:'#terminal-tools',title:'Terminal'" style="width:300px;"><!--FOOTER STARTS -->
+      <div id="terminal" style="padding:0px; margin:0px;overflow:hidden;"></div>
+</div><!--FOOTER ENDS -->
+<div data-options="region:'center'" style="padding:0px;background:#eee;"><!--CODE AREA STARTS -->
+<div data-options="fit:true,border:false,tools:'#tab-tools',toolPosition:'left'" id="codebox" class="easyui-tabs" style="width:55%;">
+</div>
+<div id="tab-tools" style="border-top:0px; border-right:0px;">
+<div id='wait' style='display:none'>
+<img style="margin-left:4px;margin-top:3px;width:28px; height:28px;" src='/codingground/images/loading.gif'/>
+</div>
+<a href="javascript:void(0)" id="compile"  class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-execute-project'" style="white-space:nowrap;"><b>Compile</b></a>
+<a href="javascript:void(0)" id="preview"  class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-execute-project'" style="white-space:nowrap;"><b>Preview</b></a>
+<a href="javascript:void(0)" id="separator" class="easyui-linkbutton" data-options="plain:true" style="white-space:nowrap;"><b>|</b></a>
+<a href="javascript:void(0)" id="execute"  class="easyui-linkbutton" data-options="plain:true" style="white-space:nowrap;"><b>Execute</b></a>
+<a href="javascript:void(0)" id="separator" class="easyui-linkbutton" data-options="plain:true" style="white-space:nowrap;"><b>|</b></a>
+<a href="javascript:void(0)" id="share"  onclick="openShareProject()" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-share-project'" style="white-space:nowrap;"><b>Share Project</b></a>
+</div>
+</div>
+</body>
+<html>
