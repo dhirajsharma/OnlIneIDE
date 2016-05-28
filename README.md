@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # term.js
 
 A full xterm clone written in javascript. Used by
@@ -79,3 +80,6 @@ all code is your original work. `</legalese>`
 ## License
 
 Copyright (c) 2012-2013, Christopher Jeffrey (MIT License)
+=======
+# OnlIneIDE
+>>>>>>> d651ac29213620eb7a2796768962e71db1a49b32
